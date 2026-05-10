@@ -32,6 +32,7 @@ const registerUser = async (req, res) => {
             success: true,
             userCreated: newUser
         });
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Something went wrong on the server" });// internal server error only reflected on the backend 
