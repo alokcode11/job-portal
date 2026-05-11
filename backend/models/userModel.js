@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true // Must provide 
+        required: true,
     },
     email: {
         type: String,
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
 });
 
 //2. we trun our blueprint [userSchema] into an actual active model that we can use in our server
-const user = mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
 
 //3. Export it so that other files can use or access it to create users
-module.exports = user;
+module.exports = User;

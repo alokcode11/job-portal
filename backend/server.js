@@ -4,9 +4,8 @@ const dotenv = require('dotenv');
 //now tell dotenv to actually run the .env file and load the secret file into our server's memory 
 dotenv.config();
 
-const userRouter = require("./routes/userRoutes");
 
-// we have create db.js so we also have to connect this with the server.js file 
+// we have created db.js so we also have to connect this with the server.js file 
 const connectDB = require('./config/db') 
 
 
@@ -21,11 +20,6 @@ const express = require("express");
 // Initialize the express application (Now app veriable is the variable that holds the express application is our server)
 const app = express();
 
-// to read form data from req.body we have to use express.json middleware 
-app.use(express.json());
-
-// use route here 
-app.use("/api/users", userRouter);
 
 
 // Define the port on which server will run
