@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json());  // translator that covert json into js so controller can understand it 
 app.use(cookieParser());
 
 app.use('/api/users', userRouter);

@@ -67,7 +67,7 @@ const loginUser = async (req, res) => {
 
         // Step E: Give the user the wristband securely via a "Cookie"
         return res.status(200).cookie("token", token, {
-            maxAge: 1 * 24 * 60 * 60 * 1000, // Makes the cookie last exactly 1 day
+            maxAge: 1 * 24 * 60 * 60 * 1000, // Makes the cookie last exactly 1 day -> in milliseconds
             httpOnly: true, // Super Security Feature: prevents hackers from stealing the cookie
             sameSite: 'strict'
         }).json({
@@ -80,4 +80,68 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser };
+const logout = async (req, res) => {  // we have not made any req that why it is in dim and completely fine 
+    try {
+        // We log them out by replacing their token with an empty string and making it expire instantly (maxAge: 0)
+        return res.status(200).cookie("token", " ", { maxAge: 0 }).json({
+            message: "Logged out successfully",
+            success: true
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error " });
+    }
+}
+
+const updateProfile = async (req, res) => {
+    try {
+        const { name, email, phoneNumber, bio, skills } = req.body;
+
+        // Remember: our Bouncer (isAuthenticated) attached the user's ID to req.id!
+        const userId = req.id;
+
+        // 1. Find the user in the database
+        let user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).json({ message: "User not found.", success: false });
+        }
+        // 2. If the user provided skills, convert them from a string into an array
+        // e.g., "React, Node, MongoDB" -> ["React", "Node", "MongoDB"]
+        let skillsArray;
+        if (skills) {
+            skillsArray = skills.split(",");
+        }
+
+        // 3. Update the data only if the user typed something new
+        if(name) user.name = name;
+        if(email) user.email = email;
+        if(phoneNumber) user.phoneNumber = phoneNumber;
+        if(bio) user.profile.bio = bio;
+        if(skillsArray) user.profile.skills = skillsArray;
+
+         // 4. Save the updated user back to the database
+         await user.save();
+
+           // 5. Send the updated data back to the frontend
+           user = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            role: user.role,
+            profile: user.profile
+           };
+
+           return res.status(200).json({
+            message: "Profile updated successfully", 
+            user, // for live update otherwise we need refresh otherwise it reflect the previous data not the updated one 
+            success: true
+           });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+module.exports = { registerUser, loginUser, logout, updateProfile }; 
