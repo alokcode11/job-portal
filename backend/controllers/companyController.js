@@ -1,6 +1,6 @@
 const Company = require("../models/companyModel");
 
-
+//  CURD Operation 
 // 1. REGISTER COMPANY LOGIC
 const registerCompany = async (req, res) => {
     try {

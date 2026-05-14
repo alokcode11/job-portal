@@ -1,8 +1,8 @@
 const cookieParser = require('cookie-parser');
 const express = require("express");
+const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 const userRouter = require("./routes/userRoutes");
-const connectDB = require('./config/db');
 const companyRouter = require('./routes/companyRoutes');
 
 
@@ -15,8 +15,8 @@ app.use(express.json());  // translator that covert json into js so controller c
 app.use(cookieParser());
 
 
-app.use('/api/users', userRouter);
-app.use('/api/company', companyRouter);
+app.use('/api/users', userRouter); // ye rasta set karta hai [Base Route] --> combining this with the routes became the whole URL 
+app.use('/api/company', companyRouter); // isse start ho to companyRouter ke pass bhej dena 
 
 connectDB();
 
