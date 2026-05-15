@@ -114,34 +114,33 @@ const updateProfile = async (req, res) => {
         }
 
         // 3. Update the data only if the user typed something new
-        if(name) user.name = name;
-        if(email) user.email = email;
-        if(phoneNumber) user.phoneNumber = phoneNumber;
-        if(bio) user.profile.bio = bio;
-        if(skillsArray) user.profile.skills = skillsArray;
+        if (name) user.name = name;
+        if (email) user.email = email;
+        if (phoneNumber) user.phoneNumber = phoneNumber;
+        if (bio) user.profile.bio = bio;
+        if (skillsArray) user.profile.skills = skillsArray;
 
-         // 4. Save the updated user back to the database
-         await user.save();
+        // 4. Save the updated user back to the database
+        await user.save();
 
-           // 5. Send the updated data back to the frontend
-           user = {
+        // 5. Send the updated data back to the frontend
+        user = {
             _id: user._id,
             name: user.name,
             email: user.email,
             phoneNumber: user.phoneNumber,
             role: user.role,
             profile: user.profile
-           };
+        };
 
-           return res.status(200).json({
-            message: "Profile updated successfully", 
+        return res.status(200).json({
+            message: "Profile updated successfully",
             user, // for live update otherwise we need refresh otherwise it reflect the previous data not the updated one 
             success: true
-           });
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server error" });
     }
 }
-
 module.exports = { registerUser, loginUser, logout, updateProfile }; 

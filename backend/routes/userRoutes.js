@@ -3,13 +3,18 @@ const { registerUser, loginUser, logout, updateProfile } = require('../controlle
 const isAuthenticated = require('../middleware/isAuthenticated'); // Import the Bouncer!
 
 
-const userRouter = express.Router();
 
+const userRouter = express.Router();
+//static Routes always on top 
 userRouter.post('/register', registerUser);
 userRouter.post('/login', loginUser);
 userRouter.get('/logout', logout);
 // Notice how isAuthenticated is placed in the MIDDLE! 
 // Request -> Bouncer -> updateProfile Brain
 userRouter.put('/profile/update', isAuthenticated, updateProfile); // authenticated then move to next()
+
+//dynamic routes come after the static routes always 
+
+
 
 module.exports = userRouter;
