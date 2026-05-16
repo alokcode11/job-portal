@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 const userRouter = require("./routes/userRoutes");
 const companyRouter = require('./routes/companyRoutes');
 const jobRouter = require('./routes/jobRoutes');
+const applicationRouter = require('./routes/applicationRoutes');
+
 
 
 
@@ -20,6 +22,7 @@ app.use(cookieParser());
 app.use('/api/users', userRouter); // ye rasta set karta hai [Base Route] --> combining this with the routes became the whole URL 
 app.use('/api/company', companyRouter); // isse start ho to companyRouter ke pass bhej dena 
 app.use('/api/jobs', jobRouter); 
+app.use('/api/application', applicationRouter);
 
 connectDB();
 

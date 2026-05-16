@@ -55,6 +55,6 @@ const jobSchema = new mongoose.Schema({
 // This achieves your exact resume goal of reducing API search response times!
 jobSchema.index({ location: 1, jobType: 1 });
 
-const Job = mongoose.model('job', jobSchema);
+const Job = mongoose.model('Job', jobSchema); //Doubt
 
 module.exports = Job;
