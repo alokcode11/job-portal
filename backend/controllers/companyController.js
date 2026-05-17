@@ -1,4 +1,7 @@
 const Company = require("../models/companyModel");
+const cloudinary = require("../utils/cloudinary");
+const DataUri = require('datauri/parser');
+const path = require('path');
 
 //  CURD Operation 
 // 1. REGISTER COMPANY LOGIC
@@ -82,6 +85,15 @@ const updateCompany = async (req, res) => {
         const { name, description, website, location } = req.body;
 
         const updateData = { name, description, website, location };
+
+        // --- 🚀 COMPANY LOGO UPLOAD ---
+        if(req.file) {
+            const parser = new DataUri();
+            const fileExtension = path.extname(req.file.originalname).toString();
+            const fileDataUri = parser.format(fileExtension, req.file.buffer);
+            const cloudinaryResponse = await cloudinary.uploader.upload(fileDataUri.content);
+            updateData.logo = cloudinaryResponse.secure_url; // save the logo URL 
+        }
 
         // Find the company by URL ID and update it. { new: true } returns the updated data!
         const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });

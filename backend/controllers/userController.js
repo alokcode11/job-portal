@@ -1,6 +1,10 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('../utils/cloudinary');
+const DataUri = require('datauri/parser');
+const path = require('path');
+
 
 const registerUser = async (req, res) => {
     try {
@@ -113,12 +117,31 @@ const updateProfile = async (req, res) => {
             skillsArray = skills.split(",");
         }
 
+        // --- 🚀 THE CLOUDINARY UPLOAD LOGIC ---
+        // req.file is the resume PDF file caught by our Multer Middleware!
+        let cloudinaryResponse;
+        if(req.file) {
+            // Convert the file in RAM into a data URI string Cloundinary understands
+            const parser = new DataUri();
+            const fileExtension = path.extname(req.file.orignalname).toString();
+            const fileDataUri = parser.format(fileExtension, req.file.buffer);
+
+            // Upload to Cloudinary! It return a secure URL 
+            cloudinaryResponse = await cloudinary.uploader.upload(fileDataUri.content);
+        }
+
         // 3. Update the data only if the user typed something new
         if (name) user.name = name;
         if (email) user.email = email;
         if (phoneNumber) user.phoneNumber = phoneNumber;
         if (bio) user.profile.bio = bio;
         if (skillsArray) user.profile.skills = skillsArray;
+
+        // if a file was uploaded, save its cloudinary URL into the user's Profile
+        if(cloudinaryResponse) {
+            user.profile.resume = cloudinaryResponse.secure_url; // The permanent cloud URL 
+            user.profile.resumeOriginalName = req.file.orignalname  // e.g., "AlokResume.pdf"
+        }
 
         // 4. Save the updated user back to the database
         await user.save();
