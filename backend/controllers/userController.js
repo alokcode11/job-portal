@@ -123,7 +123,7 @@ const updateProfile = async (req, res) => {
         if(req.file) {
             // Convert the file in RAM into a data URI string Cloundinary understands
             const parser = new DataUri();
-            const fileExtension = path.extname(req.file.orignalname).toString();
+            const fileExtension = path.extname(req.file.originalname).toString();
             const fileDataUri = parser.format(fileExtension, req.file.buffer);
 
             // Upload to Cloudinary! It return a secure URL 
@@ -140,7 +140,7 @@ const updateProfile = async (req, res) => {
         // if a file was uploaded, save its cloudinary URL into the user's Profile
         if(cloudinaryResponse) {
             user.profile.resume = cloudinaryResponse.secure_url; // The permanent cloud URL 
-            user.profile.resumeOriginalName = req.file.orignalname  // e.g., "AlokResume.pdf"
+            user.profile.resumeOriginalName = req.file.originalname  // e.g., "AlokResume.pdf"
         }
 
         // 4. Save the updated user back to the database

@@ -24,7 +24,16 @@ app.use('/api/company', companyRouter); // isse start ho to companyRouter ke pas
 app.use('/api/jobs', jobRouter); 
 app.use('/api/application', applicationRouter);
 
-connectDB();
+connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`[SERVER] Server is running at http://localhost:${PORT}`);
+      console.log(`[SERVER] Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  })
+  .catch((error) => {
+    console.error("[SERVER] Failed to start server:", error.message);
+    process.exit(1); // Exit process on database connection failure
+  });
 
 const PORT = process.env.PORT || 3000;
 

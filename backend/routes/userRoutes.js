@@ -12,9 +12,6 @@ userRouter.post('/login', loginUser);
 userRouter.get('/logout', logout);
 // Notice how isAuthenticated is placed in the MIDDLE! 
 // Request -> Bouncer -> updateProfile Brain
-userRouter.put('/profile/update', isAuthenticated, updateProfile); // authenticated then move to next()
-
-// Update this one line:
 userRouter.put('/profile/update', isAuthenticated, singleUpload, updateProfile);
 //dynamic routes come after the static routes always 
 

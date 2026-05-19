@@ -7,8 +7,8 @@ const applicationRouter = express.Router();
 
 // 🎓 STUDENT ROUTES
 // Notice we use the Job ID in the URL to apply!
-applicationRouter.get('/apply/:id', isAuthenticated, applyJob);
-applicationRouter.get('/get', isAuthenticated, getAppliedJobs);
+applicationRouter.post('/apply-job/:id', isAuthenticated, applyJob);
+applicationRouter.get('/all-applied-jobs', isAuthenticated, getAppliedJobs);
 
 // 🎓 Recruiter ROUTES
 applicationRouter.get('/:id/applicants', isAuthenticated, getApplicants);

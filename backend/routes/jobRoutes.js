@@ -5,11 +5,11 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 
 const jobRouter = express.Router();
 //static Route
-jobRouter.post('/post', isAuthenticated, postJob);
-jobRouter.get('/get', isAuthenticated, getAllJobs);
+jobRouter.post('/create-job', isAuthenticated, postJob);
+jobRouter.get('/all-jobs', isAuthenticated, getAllJobs);
 jobRouter.get('/getrecruiterJobs', isAuthenticated, getRecruiterJobs);
 //Dynamic Route
-jobRouter.get('/get/:id', isAuthenticated, getJobById);
+jobRouter.get('/getJob-by-id/:id', isAuthenticated, getJobById);
 
 
 module.exports = jobRouter;

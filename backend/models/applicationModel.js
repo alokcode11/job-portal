@@ -6,6 +6,11 @@ const applicationSchema = new mongoose.Schema({
         ref: 'Job',
         required: true // The job being applied to 
     },
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Company',
+        required: false // Made optional so older documents don't crash when updating!
+    },
     applicant: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -13,7 +18,7 @@ const applicationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        emum: ['pending', 'accepted', 'rejected'], // It can ONLY be on of these three exact words!
+        enum: ['pending', 'accepted', 'rejected'], // It can ONLY be on of these three exact words!
         default: 'pending'
     }
 },{

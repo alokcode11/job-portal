@@ -26,7 +26,8 @@ const applyJob = async (req, res) => {
         // create the brand new application!.
         const newApplication = await Application.create({
             job: jobId,
-            applicant: userId
+            applicant: userId,
+            company: job.company
         });
 
         // 🚀 CRITICAL LINK: Push this application's ID into the Job's 'applications' array!
@@ -52,13 +53,8 @@ const getAppliedJobs = async (req, res) => {
         // Find the application -> expand the 'job' -> inside the job, expand the 'company'
         const application = await Application.find({ applicant: userId })
         .sort({ createdAt: -1 })
-        .populate({ // with populate mongoose automtically replace ID with the actuaal document
-            path: 'job', //populate job field ref "Job" --> similar to join in SQL
-            options: { sort: {createdAt: -1}},
-            populate: { 
-                path: 'company'
-            }
-        });
+        .populate('job', 'title')
+        .populate('company');
 
         if(!application) {
             return res.status(400).json({ message: "No applications found ", success: false });
