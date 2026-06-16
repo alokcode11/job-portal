@@ -131,6 +131,9 @@ const updateProfile = async (req, res) => {
         }
 
         // 3. Update the data only if the user typed something new
+        if (!user.profile) {
+            user.profile = {};
+        }
         if (name) user.name = name;
         if (email) user.email = email;
         if (phoneNumber) user.phoneNumber = phoneNumber;

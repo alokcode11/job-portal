@@ -1,5 +1,5 @@
 const express = require('express');
-const { postJob, getAllJobs, getJobById, getRecruiterJobs } = require('../controllers/jobContoller');
+const { postJob, getAllJobs, getJobById, getRecruiterJobs } = require('../controllers/jobController');
 const isAuthenticated = require('../middleware/isAuthenticated');
 
 

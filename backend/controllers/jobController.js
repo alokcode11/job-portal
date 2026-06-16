@@ -12,7 +12,7 @@ const postJob = async (req, res) => {
         const job = await Job.create({
             title,
             description,
-            requirement: requirement.split(","), //convert "React,Node" -> ["React", "Node"]
+            requirement: Array.isArray(requirement) ? requirement : (typeof requirement === 'string' ? requirement.split(",") : []), //convert "React,Node" -> ["React", "Node"]
             salary: Number(salary),
             location,
             jobType,

@@ -24,6 +24,8 @@ app.use('/api/company', companyRouter); // isse start ho to companyRouter ke pas
 app.use('/api/jobs', jobRouter); 
 app.use('/api/application', applicationRouter);
 
+const PORT = process.env.PORT || 3000;
+
 connectDB().then(() => {
     app.listen(PORT, () => {
       console.log(`[SERVER] Server is running at http://localhost:${PORT}`);
@@ -35,12 +37,7 @@ connectDB().then(() => {
     process.exit(1); // Exit process on database connection failure
   });
 
-const PORT = process.env.PORT || 3000;
-
 app.get('/', (req, res) => {
     res.send('Hello from job portal backend');
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running successfully on port ${PORT}`);
-});

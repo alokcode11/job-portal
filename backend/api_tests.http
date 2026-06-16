@@ -1,0 +1,154 @@
+# =========================================================================
+# JOB PORTAL API TESTING SUITE
+# =========================================================================
+# Use this file with the "REST Client" extension in VS Code to test your APIs
+# with a single click.
+#
+# Prerequisite: Make sure your server is running (`npm run dev` or `node server.js`)
+# and your local MongoDB database is active.
+# =========================================================================
+
+@baseUrl = http://localhost:3000/api
+
+# =========================================================================
+# 👤 USER AUTHENTICATION & PROFILE APIs
+# =========================================================================
+
+### 1. Register a new Student User
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+  "name": "Alok Kumar",
+  "email": "alok@example.com",
+  "password": "password12345",
+  "role": "student"
+}
+
+### 2. Register a new Recruiter User
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+  "name": "Recruiter One",
+  "email": "recruiter@example.com",
+  "password": "recruiter123",
+  "role": "recruiter"
+}
+
+### 3. Log In User (Saves auth cookie in client)
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "alok@example.com",
+  "password": "password12345"
+}
+
+### 4. Log In Recruiter
+# @name recruiterLogin
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "recruiter@example.com",
+  "password": "recruiter123"
+}
+
+### 5. Update Profile (Requires Login Cookie)
+# NOTE: To test file upload (resume), select "multipart/form-data" 
+# or test this endpoint directly through the frontend form.
+PUT {{baseUrl}}/users/profile/update
+Content-Type: application/json
+
+{
+  "name": "Alok Kumar Updated",
+  "phoneNumber": "9876543210",
+  "bio": "Full Stack Developer specializing in Node.js & React.",
+  "skills": "React,Node.js,Express,MongoDB"
+}
+
+### 6. Log Out User
+GET {{baseUrl}}/users/logout
+
+# =========================================================================
+# 🏢 COMPANY MANAGEMENT APIs (Recruiter only)
+# =========================================================================
+
+### 7. Register a Company (Must be logged in as Recruiter)
+POST {{baseUrl}}/company/register
+Content-Type: application/json
+
+{
+  "name": "Google DeepMind"
+}
+
+### 8. Get All Companies for Logged-In Recruiter
+GET {{baseUrl}}/company/all-companies
+
+### 9. Get Single Company by ID (Replace :id with actual Company ID)
+@companyId = 661f49a200a54ee7ab7d0354
+GET {{baseUrl}}/company/get/{{companyId}}
+
+### 10. Update Company details (Replace :id with actual Company ID)
+PUT {{baseUrl}}/company/update-company/{{companyId}}
+Content-Type: application/json
+
+{
+  "description": "Leading artificial intelligence research laboratory.",
+  "website": "https://deepmind.google",
+  "location": "London, UK"
+}
+
+# =========================================================================
+# 💼 JOB MANAGEMENT APIs
+# =========================================================================
+
+### 11. Post a New Job (Must be logged in as Recruiter)
+POST {{baseUrl}}/jobs/create-job
+Content-Type: application/json
+
+{
+  "title": "Software Engineer Intern",
+  "description": "Develop and maintain next-generation AI interfaces.",
+  "requirement": "React,Node.js,MongoDB,JavaScript",
+  "salary": 150000,
+  "location": "Bengaluru, India",
+  "jobType": "Internship",
+  "experienceLevel": 1,
+  "position": 2,
+  "companyId": "{{companyId}}"
+}
+
+### 12. Get All Jobs (With optional search keyword)
+GET {{baseUrl}}/jobs/all-jobs?keyword=software
+
+### 13. Get Recruiter posted Jobs
+GET {{baseUrl}}/jobs/getrecruiterJobs
+
+### 14. Get Single Job by ID (Replace :id with actual Job ID)
+@jobId = 661f49a200a54ee7ab7d0356
+GET {{baseUrl}}/jobs/getJob-by-id/{{jobId}}
+
+# =========================================================================
+# 📝 APPLICATION PROCESS APIs
+# =========================================================================
+
+### 15. Apply to a Job (Must be logged in as Student)
+POST {{baseUrl}}/application/apply-job/{{jobId}}
+
+### 16. Get All Applied Jobs (For Logged-In Student)
+GET {{baseUrl}}/application/all-applied-jobs
+
+### 17. Get All Applicants for a Job (Recruiter only - Replace :id with Job ID)
+GET {{baseUrl}}/application/{{jobId}}/applicants
+
+### 18. Update Application Status (Recruiter only - Replace :id with Application ID)
+@applicationId = 661f49a200a54ee7ab7d0358
+PUT {{baseUrl}}/application/status/{{applicationId}}/update
+Content-Type: application/json
+
+{
+  "status": "accepted"
+}

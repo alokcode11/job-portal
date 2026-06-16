@@ -11,7 +11,7 @@ companyRouter.post('/register', isAuthenticated, registerCompany);
 companyRouter.get('/all-companies', isAuthenticated, getCompanies);
 
 // The ':id' syntax is how we capture the dynamic ID string straight from the URL bar!
-companyRouter.get('/get-job-by-id/:id', isAuthenticated, getCompanyById); //req.params.id
+companyRouter.get('/get/:id', isAuthenticated, getCompanyById); //req.params.id
 companyRouter.put('/update-company/:id', isAuthenticated, updateCompany);
 companyRouter.put('/update/:id', isAuthenticated, singleUpload, updateCompany);
 

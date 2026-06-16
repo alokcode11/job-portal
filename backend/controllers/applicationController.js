@@ -56,7 +56,7 @@ const getAppliedJobs = async (req, res) => {
         .populate('job', 'title')
         .populate('company');
 
-        if(!application) {
+        if(!application || application.length === 0) {
             return res.status(400).json({ message: "No applications found ", success: false });
         }
 
