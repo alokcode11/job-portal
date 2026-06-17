@@ -6,14 +6,18 @@ const userRouter = require("./routes/userRoutes");
 const companyRouter = require('./routes/companyRoutes');
 const jobRouter = require('./routes/jobRoutes');
 const applicationRouter = require('./routes/applicationRoutes');
-
-
-
-
+const cors = require('cors');
 
 dotenv.config();
 
+
 const app = express();
+
+
+app.use(cors({
+  origin: "http://localhost:5173", // Alow react app to interact
+  credentials: true // Allow cookies/headers to be sent back and forth 
+}));
 
 app.use(express.json());  // translator that covert json into js so controller can understand it 
 app.use(cookieParser());
