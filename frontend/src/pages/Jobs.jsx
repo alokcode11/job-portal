@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { BASE_URL } from "../utils/constant";
+import { Link } from "react-router-dom";
+
 
 
 const Jobs = () => {
@@ -58,11 +60,14 @@ const Jobs = () => {
                     <p>No jobs match your search filter.</p>
                 ) : (
                     filteredJobs.map((job) => (
-                        <div key={job._id} style={{ padding: "20px", border: "1px solid #eee", borderRadius: "8px", background: "#fafafa", marginBottom: "15px"}}>
-                            <h3 style = {{margin: "0 0 5px 0", color: "#0070f3"}}>{job.title}</h3>
-                            <p style = {{margin: "0 0 5px 0", fontSize: "14px", color: "#666"}}>{job.location}</p>
-                            <p style = {{margin: "0"}}>{job.description}</p>
-                        </div>
+                        <Link to={`/jobs/${job._id}`} key={job._id} style={{textDecoration: "none", color: "inherit"}}>
+                            <div key={job._id} style={{ padding: "20px", border: "1px solid #eee", borderRadius: "8px", background: "#fafafa", marginBottom: "15px" }}>
+                                <h3 style={{ margin: "0 0 5px 0", color: "#0070f3" }}>{job.title}</h3>
+                                <p style={{ margin: "0 0 5px 0", fontSize: "14px", color: "#666" }}>{job.location}</p>
+                                <p style={{ margin: "0" }}>{job.description}</p>
+                            </div>
+                        </Link>
+
                     ))
                 )}
             </div>

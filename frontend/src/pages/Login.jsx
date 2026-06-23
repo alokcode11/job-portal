@@ -31,6 +31,9 @@ const Login = () => {
 
             if(res.data.success) {
                 toast.success(res.data.message || "Welcome back!");
+
+                // Save the login state in localStorage
+                localStorage.setItem("isLoggedin", "true")
                 setTimeout(() => {
                     navigate("/");
                 }, 1500);
